@@ -1,0 +1,12 @@
+{
+  "data_config": "configs/data_fd001.json",
+  "representation": "window mean + slope per sensor (28 inputs)",
+  "n_hidden": 32,
+  "lr": 0.05,
+  "batch_size": 64,
+  "max_epochs": 300,
+  "patience": 20,
+  "seed": 0,
+  "checkpoint": "models/numpy_mlp_seed0.npz",
+  "metrics_file": "results/metrics/numpy_mlp_seed0.json"
+}

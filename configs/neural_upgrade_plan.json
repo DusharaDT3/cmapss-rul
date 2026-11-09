@@ -1,0 +1,32 @@
+{
+  "experiment": "neural_upgrade_v1",
+  "status": "exploratory follow-up after the original FD001 test results were seen",
+  "data_config": "configs/data_fd001.json",
+  "selection": "Lowest mean validation RMSE across tuning seeds 0 and 1; fixed original engine split. No test data loaded by training.",
+  "budget": "Eight candidates, two tuning seeds each; selected candidate reported for seeds 0, 1, 2. No additional search after test evaluation.",
+  "tuning_seeds": [0, 1],
+  "final_seeds": [0, 1, 2],
+  "threads": 2,
+  "training": {
+    "max_epochs": 160,
+    "patience": 22,
+    "batch_size": 256,
+    "lr": 0.001,
+    "scheduler_patience": 6,
+    "scheduler_factor": 0.5,
+    "min_lr": 0.00001
+  },
+  "candidates": [
+    {"name": "summary_small", "architecture": "feature_mlp", "representation": "summary", "hidden": [64, 32], "dropout": 0.0, "weight_decay": 0.0001},
+    {"name": "summary_wide", "architecture": "feature_mlp", "representation": "summary", "hidden": [128, 64], "dropout": 0.0, "weight_decay": 0.0001},
+    {"name": "pooled_small", "architecture": "feature_mlp", "representation": "pooled", "hidden": [64, 32], "dropout": 0.0, "weight_decay": 0.0001},
+    {"name": "pooled_wide", "architecture": "feature_mlp", "representation": "pooled", "hidden": [128, 64], "dropout": 0.0, "weight_decay": 0.0001},
+    {"name": "pooled_regularised", "architecture": "feature_mlp", "representation": "pooled", "hidden": [128, 64], "dropout": 0.1, "weight_decay": 0.001},
+    {"name": "cnn_small", "architecture": "temporal_cnn", "representation": "sequence", "channels": 16, "hidden": 32, "dropout": 0.0, "weight_decay": 0.0001},
+    {"name": "cnn_wide", "architecture": "temporal_cnn", "representation": "sequence", "channels": 32, "hidden": 64, "dropout": 0.0, "weight_decay": 0.0001},
+    {"name": "cnn_regularised", "architecture": "temporal_cnn", "representation": "sequence", "channels": 32, "hidden": 64, "dropout": 0.1, "weight_decay": 0.001}
+  ],
+  "common_design": "Train-only standardisation; sigmoid output times the fixed 125-cycle cap; MSE; AdamW; validation learning-rate reduction and early stopping. Same 30-cycle, 14-sensor information as original models.",
+  "evaluation": "Freeze sources, data, preprocessing, plan and all selected checkpoints before one descriptive evaluation of the already-used official test set. Report every seed and mean/std. Compare three-seed ensembles for ALL models, never ensemble-vs-single only.",
+  "acceptance": "Do not claim the neural upgrade wins unless measured results support it. Lower test error on this reused benchmark is descriptive, not fresh confirmation of generalisation."
+}

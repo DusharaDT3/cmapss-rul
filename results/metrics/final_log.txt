@@ -1,0 +1,16 @@
+random_forest_seed0    val RMSE 12.82
+random_forest_seed1    val RMSE 12.76
+random_forest_seed2    val RMSE 12.77
+mlp_seed0              val RMSE 12.80
+mlp_seed1              val RMSE 12.83
+mlp_seed2              val RMSE 12.82
+lstm_seed0             val RMSE 12.94
+lstm_seed1             val RMSE 12.73
+lstm_seed2             val RMSE 12.81
+mlp_nodropout_seed0    val RMSE 12.72
+mlp_nodropout_seed1    val RMSE 12.68
+mlp_nodropout_seed2    val RMSE 12.62
+random_forest      val RMSE 12.79 +- 0.03
+mlp                val RMSE 12.81 +- 0.01
+lstm               val RMSE 12.83 +- 0.11
+mlp_nodropout      val RMSE 12.67 +- 0.05

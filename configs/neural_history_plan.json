@@ -1,0 +1,34 @@
+{
+  "experiment": "neural_history_v2",
+  "status": "Second exploratory follow-up, after original and first-upgrade test results were known",
+  "data_config": "configs/data_fd001.json",
+  "selection": "Rank 12 neural candidates by mean validation RMSE over seeds 0 and 1. Select 3 RF candidates separately with the same two seeds. Add seed 2 for each selected configuration. Freeze all selections before test access.",
+  "information": "Causal observed history only: last-30 summaries, first-10 sensor means, change from initial level, cumulative means/slopes, and observed cycle. No future rows, full engine lifetime, ID, or true RUL used as a feature.",
+  "baseline": "Refit random forest on the same history features, with its own train-only standardisation and the same engine split. Also show original and upgrade-v1 scores separately.",
+  "tuning_seeds": [0, 1],
+  "final_seeds": [0, 1, 2],
+  "threads": 2,
+  "training": {"max_epochs": 180, "patience": 25, "batch_size": 256, "lr": 0.001, "scheduler_patience": 7},
+  "neural_candidates": [
+    {"name": "history_small_sigmoid", "representation": "history", "hidden": [64, 32], "dropout": 0.1, "weight_decay": 0.001, "output": "sigmoid"},
+    {"name": "history_wide_sigmoid", "representation": "history", "hidden": [128, 64], "dropout": 0.1, "weight_decay": 0.001, "output": "sigmoid"},
+    {"name": "history_small_linear", "representation": "history", "hidden": [64, 32], "dropout": 0.1, "weight_decay": 0.001, "output": "linear"},
+    {"name": "history_wide_linear", "representation": "history", "hidden": [128, 64], "dropout": 0.1, "weight_decay": 0.001, "output": "linear"},
+    {"name": "pooled_small_sigmoid", "representation": "pooled_history", "hidden": [64, 32], "dropout": 0.1, "weight_decay": 0.001, "output": "sigmoid"},
+    {"name": "pooled_wide_sigmoid", "representation": "pooled_history", "hidden": [128, 64], "dropout": 0.1, "weight_decay": 0.001, "output": "sigmoid"},
+    {"name": "pooled_small_linear", "representation": "pooled_history", "hidden": [64, 32], "dropout": 0.1, "weight_decay": 0.001, "output": "linear"},
+    {"name": "pooled_wide_linear", "representation": "pooled_history", "hidden": [128, 64], "dropout": 0.1, "weight_decay": 0.001, "output": "linear"},
+    {"name": "history_regularised_sigmoid", "representation": "history", "hidden": [128, 64], "dropout": 0.2, "weight_decay": 0.005, "output": "sigmoid"},
+    {"name": "history_regularised_linear", "representation": "history", "hidden": [128, 64], "dropout": 0.2, "weight_decay": 0.005, "output": "linear"},
+    {"name": "history_no_dropout", "representation": "history", "hidden": [128, 64], "dropout": 0.0, "weight_decay": 0.001, "output": "sigmoid"},
+    {"name": "pooled_no_dropout", "representation": "pooled_history", "hidden": [128, 64], "dropout": 0.0, "weight_decay": 0.001, "output": "sigmoid"}
+  ],
+  "rf_candidates": [
+    {"name": "history_rf_leaf5", "representation": "pooled_history", "n_estimators": 300, "min_samples_leaf": 5, "max_depth": null},
+    {"name": "history_rf_leaf10", "representation": "pooled_history", "n_estimators": 300, "min_samples_leaf": 10, "max_depth": null},
+    {"name": "history_rf_leaf20", "representation": "pooled_history", "n_estimators": 300, "min_samples_leaf": 20, "max_depth": null}
+  ],
+  "postprocessing": "All new neural and forest outputs clipped to [0,125], fixed before the experiment.",
+  "test": "One descriptive evaluation per selected configuration. Include per-seed and equally-sized three-model ensembles. Do not select a seed on test score or continue this search after evaluation.",
+  "limitations": "The old test set is already seen; expanded feature information and more tuning make comparison to original models exploratory. No independent generalisation claim."
+}

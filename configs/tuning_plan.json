@@ -1,0 +1,27 @@
+{
+  "written": "2026-11-09, before any tuning run",
+  "rule": "Each candidate trained once with seed 0 on the fixed engine split. Select the candidate with the lowest validation RMSE (cycles, capped RUL). The test set is not used for selection.",
+  "budget": "4 trials per neural architecture, 3 trials for the baseline; no further search after this plan",
+  "shared_settings": "Adam lr 1e-3, weight decay 1e-5, batch 256, max 100 epochs, early-stopping patience 10",
+  "candidates": {
+    "mlp": [
+      {"hidden": [128, 64], "dropout": 0.1},
+      {"hidden": [128, 64], "dropout": 0.3},
+      {"hidden": [256, 128], "dropout": 0.1},
+      {"hidden": [256, 128], "dropout": 0.3}
+    ],
+    "lstm": [
+      {"hidden": 32, "dropout": 0.1},
+      {"hidden": 32, "dropout": 0.3},
+      {"hidden": 64, "dropout": 0.1},
+      {"hidden": 64, "dropout": 0.3}
+    ],
+    "random_forest": [
+      {"max_depth": 8, "min_samples_leaf": 1},
+      {"max_depth": 12, "min_samples_leaf": 5},
+      {"max_depth": null, "min_samples_leaf": 10}
+    ]
+  },
+  "final_seeds": [0, 1, 2],
+  "ablation": "On the selected neural architecture: dropout set to 0.0, all other settings unchanged, seeds 0-2, validation data only"
+}

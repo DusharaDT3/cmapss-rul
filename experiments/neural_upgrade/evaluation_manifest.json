@@ -1,0 +1,41 @@
+{
+  "frozen_at": "2026-11-09T10:47:23.876655+00:00",
+  "files": {
+    "configs/neural_upgrade_plan.json": "f5962ba18c81c8d490cd11981d41740c36bfd133e063e10067ee32f3ddb6f6fe",
+    "scripts/train_neural_upgrade.py": "65a53d6c73a19fb1d2d64343336fc4e88594c4367ba9f0c78dfe5084cb2a7596",
+    "src/neural_upgrade.py": "f8d4165f32e625d8e79f68d2c1ac470840728de7717e6aa45f7e302985906bb0",
+    "src/data.py": "6255fa22dec45ef0e9dd0d07ae643d39ecc4efb98f18d08982a46ffad94b278e",
+    "src/numpy_mlp.py": "9ea3ea954658a21f5c8ca41202da71b21119a96e5858ec696cd015770bea2c64",
+    "configs/data_fd001.json": "af220f10c8e5af60511ccd5397359e01421511742b4bc13c94af7b0380033466",
+    "data/splits/fd001_split.json": "7f2c96ab3a18e05a014a78fa3c6923d737f0f224ae37af116ec5ae93ce1b031e",
+    "models/preprocess_fd001.json": "8ad8ce4291c938580b1fb44550250755712cee4ba80c404cc84995e2a7c3f2a9",
+    "data/raw/train_FD001.txt": "963b5e22825b34d8b21c69e1aeb4af3e647050eb672ee8834ba4b5d91d2de0f8",
+    "experiments/neural_upgrade/selection.json": "eadbc1849322fd14a0f0ed251edd5f68f4bfe8bc755477cd8d84802175fdc8ae",
+    "experiments/neural_upgrade/selected_seed0.pt": "30ef25390f96fde849370441f8d8fefd9c75e5703f2217457f6d385ef30fe03c",
+    "experiments/neural_upgrade/selected_seed1.pt": "fdac0ddbf18b3ea121f85209a15f81813facc535a7f08028951cc8f53ceca210",
+    "experiments/neural_upgrade/selected_seed2.pt": "a783abaa35b9522241ceb623129acea1ee2ea23ea68fc33f51c04793a47975c3",
+    "scripts/evaluate_neural_upgrade.py": "fc2522947e770103f22052d07ef4c996882d39939cc0d9dfa9f02426129eca7a",
+    "src/inference.py": "8c6bf069676c8ae67d61802c16a520a3323126d6be506422f31bd451bcc31073",
+    "src/models.py": "7b815a157086cf1aee6de205cd049ee4e73d4910df5bf0eb2204a5bb7f8ae727",
+    "src/train_torch.py": "647db61b3efe7ef2229fc2a63193f8c8df0b429fe7ad69238cccfeaf42c83d49",
+    "src/features.py": "93b509b2e4d20af3ed7e8081d7f5e6f3e061a45930b3bd3d7ff3447530919a7b",
+    "src/metrics.py": "14bb2730957d9a877268e85f6e9258646eb3b6bf1e83438c1e09b7f902a806df",
+    "results/freeze_manifest.json": "4807c804d3bebd4042fdb16d8d6e159c8b3d3c8e8e1f2771a7863a22d6f3edf1"
+  },
+  "test_reused": true,
+  "note": "Post-hoc follow-up; original FD001 test scores were already known.",
+  "original_frozen_files": {
+    "configs/final_random_forest.json": "a504a15aab78d7cc",
+    "configs/final_mlp.json": "eb0f46f9f74e8118",
+    "configs/final_lstm.json": "0e20b1394f37a30d",
+    "models/random_forest_seed0.pkl": "3458c8ef74fb28f0",
+    "models/random_forest_seed1.pkl": "869f4ce9dfa00817",
+    "models/random_forest_seed2.pkl": "16b5e0bef89fc711",
+    "models/mlp_seed0.pt": "f5b524112370c872",
+    "models/mlp_seed1.pt": "b71fde1b9693e582",
+    "models/mlp_seed2.pt": "2416d11cae5fdf7b",
+    "models/lstm_seed0.pt": "045faa26bc694e0c",
+    "models/lstm_seed1.pt": "6f47159e1bf3548e",
+    "models/lstm_seed2.pt": "da2d583b40e5f341"
+  }
+}

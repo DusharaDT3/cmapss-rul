@@ -1,0 +1,10 @@
+{
+  "subset": "FD001",
+  "val_fraction": 0.2,
+  "split_seed": 42,
+  "rul_cap": 125,
+  "window": 30,
+  "min_unique": 2,
+  "split_file": "data/splits/fd001_split.json",
+  "preprocess_file": "models/preprocess_fd001.json"
+}

@@ -1,0 +1,12 @@
+Tuning trials re-run from configs/tuning_plan.json with seed 0 (CPU, 2026-11-08T20:07Z), compared to results/metrics/tuning.json
+tune_mlp_0   original 12.7975  rerun 12.7975  match True
+tune_mlp_1   original 13.8558  rerun 13.8558  match True
+tune_mlp_2   original 13.2055  rerun 13.2055  match True
+tune_mlp_3   original 14.7045  rerun 14.7045  match True
+tune_lstm_0   original 13.2725  rerun 13.2725  match True
+tune_lstm_1   original 13.3115  rerun 13.3115  match True
+tune_lstm_2   original 12.9410  rerun 12.9410  match True
+tune_lstm_3   original 13.7949  rerun 13.7949  match True
+tune_random_forest_0   original 13.5810  rerun 13.5810  match True
+tune_random_forest_1   original 12.9971  rerun 12.9971  match True
+tune_random_forest_2   original 12.8230  rerun 12.8230  match True

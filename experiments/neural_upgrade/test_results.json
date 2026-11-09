@@ -1,0 +1,169 @@
+{
+  "test_reused": true,
+  "limitation": "All test comparisons are descriptive follow-up results on an already-seen benchmark; require new independent data for confirmation.",
+  "selected_config": {
+    "name": "pooled_regularised",
+    "architecture": "feature_mlp",
+    "representation": "pooled",
+    "hidden": [
+      128,
+      64
+    ],
+    "dropout": 0.1,
+    "weight_decay": 0.001
+  },
+  "seeds": [
+    0,
+    1,
+    2
+  ],
+  "models": {
+    "random_forest": {
+      "val_rmse": {
+        "mean": 12.786751119611303,
+        "std": 0.03193469871968883
+      },
+      "test_rmse": {
+        "mean": 12.126073341404192,
+        "std": 0.12847823112473097
+      },
+      "test_mae": {
+        "mean": 8.982715244470311,
+        "std": 0.07090673944727788
+      },
+      "test_nasa_score": {
+        "mean": 226.3791992851877,
+        "std": 6.342649514524998
+      },
+      "ensemble_val": {
+        "rmse": 12.773192483216954,
+        "mae": 9.40218928784892,
+        "nasa_score": 11036.58776470576
+      },
+      "ensemble_test": {
+        "rmse": 12.10957548430853,
+        "mae": 8.970703577374822,
+        "nasa_score": 225.60407799513646
+      },
+      "ensemble_uncapped_test": {
+        "rmse": 13.429219813380653,
+        "mae": 10.040703577374822,
+        "nasa_score": 258.32891218390165
+      },
+      "ensemble_inference_ms_batch1": 186.8666549853515
+    },
+    "mlp": {
+      "val_rmse": {
+        "mean": 12.811359405517578,
+        "std": 0.017064529189128715
+      },
+      "test_rmse": {
+        "mean": 13.397760709126791,
+        "std": 0.44143679406369773
+      },
+      "test_mae": {
+        "mean": 10.050747871398926,
+        "std": 0.2695340795978928
+      },
+      "test_nasa_score": {
+        "mean": 281.14523992769165,
+        "std": 18.21666987146373
+      },
+      "ensemble_val": {
+        "rmse": 12.542621612548828,
+        "mae": 9.341642379760742,
+        "nasa_score": 8842.592764061155
+      },
+      "ensemble_test": {
+        "rmse": 13.165648460388184,
+        "mae": 9.838077545166016,
+        "nasa_score": 268.41975585927923
+      },
+      "ensemble_uncapped_test": {
+        "rmse": 14.635746002197266,
+        "mae": 10.90807819366455,
+        "nasa_score": 311.4358885652502
+      },
+      "ensemble_inference_ms_batch1": 0.2309079864062369
+    },
+    "lstm": {
+      "val_rmse": {
+        "mean": 12.825848897298178,
+        "std": 0.10716962665428396
+      },
+      "test_rmse": {
+        "mean": 13.267632484436035,
+        "std": 0.42807544503786665
+      },
+      "test_mae": {
+        "mean": 9.813202857971191,
+        "std": 0.34306961579786704
+      },
+      "test_nasa_score": {
+        "mean": 280.1816862452318,
+        "std": 17.953601775791736
+      },
+      "ensemble_val": {
+        "rmse": 12.673089027404785,
+        "mae": 8.901071548461914,
+        "nasa_score": 9885.251469657036
+      },
+      "ensemble_test": {
+        "rmse": 13.13397216796875,
+        "mae": 9.705081939697266,
+        "nasa_score": 273.42451397721703
+      },
+      "ensemble_uncapped_test": {
+        "rmse": 14.707185745239258,
+        "mae": 10.775081634521484,
+        "nasa_score": 322.16852116558806
+      },
+      "ensemble_inference_ms_batch1": 0.8518265385646373
+    },
+    "neural_upgrade": {
+      "val_rmse": {
+        "mean": 12.089520772298178,
+        "std": 0.0976952350244868
+      },
+      "test_rmse": {
+        "mean": 12.690315246582031,
+        "std": 0.19699284384253893
+      },
+      "test_mae": {
+        "mean": 9.644341786702475,
+        "std": 0.09559343578632871
+      },
+      "test_nasa_score": {
+        "mean": 258.3246212808993,
+        "std": 12.263582889931051
+      },
+      "ensemble_val": {
+        "rmse": 11.968558311462402,
+        "mae": 8.365067481994629,
+        "nasa_score": 9716.970511936699
+      },
+      "ensemble_test": {
+        "rmse": 12.583924293518066,
+        "mae": 9.50103759765625,
+        "nasa_score": 251.96262676302226
+      },
+      "ensemble_uncapped_test": {
+        "rmse": 13.767417907714844,
+        "mae": 10.571037292480469,
+        "nasa_score": 280.9373264960263
+      },
+      "ensemble_inference_ms_batch1": 0.35138698876835406
+    }
+  },
+  "environment": {
+    "python": "3.12.3",
+    "torch": "2.14.1+cpu",
+    "numpy": "2.5.4",
+    "platform": "Linux-7.0.0-38-generic-x86_64-with-glibc2.39",
+    "processor": "x86_64",
+    "torch_threads": 2,
+    "device": "cpu"
+  },
+  "n_test_engines": 100,
+  "timing": "batch 1, 3 warmups, median 10 repeats, entire three-model ensemble, CPU"
+}

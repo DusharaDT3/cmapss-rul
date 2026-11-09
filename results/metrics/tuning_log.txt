@@ -1,0 +1,12 @@
+tune_mlp_0             {"hidden": [128, 64], "dropout": 0.1}         val RMSE 12.80
+tune_mlp_1             {"hidden": [128, 64], "dropout": 0.3}         val RMSE 13.86
+tune_mlp_2             {"hidden": [256, 128], "dropout": 0.1}        val RMSE 13.21
+tune_mlp_3             {"hidden": [256, 128], "dropout": 0.3}        val RMSE 14.70
+tune_lstm_0            {"hidden": 32, "dropout": 0.1}                val RMSE 13.27
+tune_lstm_1            {"hidden": 32, "dropout": 0.3}                val RMSE 13.31
+tune_lstm_2            {"hidden": 64, "dropout": 0.1}                val RMSE 12.94
+tune_lstm_3            {"hidden": 64, "dropout": 0.3}                val RMSE 13.79
+tune_random_forest_0   {"max_depth": 8, "min_samples_leaf": 1}       val RMSE 13.58
+tune_random_forest_1   {"max_depth": 12, "min_samples_leaf": 5}      val RMSE 13.00
+tune_random_forest_2   {"max_depth": null, "min_samples_leaf": 10}   val RMSE 12.82
+Selected: {'mlp': {'hidden': [128, 64], 'dropout': 0.1}, 'lstm': {'hidden': 64, 'dropout': 0.1}, 'random_forest': {'max_depth': None, 'min_samples_leaf': 10}}

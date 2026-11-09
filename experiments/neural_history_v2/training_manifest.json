@@ -1,0 +1,203 @@
+{
+  "started_at": "2026-11-09T11:03:36.308596+00:00",
+  "plan": {
+    "experiment": "neural_history_v2",
+    "status": "Second exploratory follow-up, after original and first-upgrade test results were known",
+    "data_config": "configs/data_fd001.json",
+    "selection": "Rank 12 neural candidates by mean validation RMSE over seeds 0 and 1. Select 3 RF candidates separately with the same two seeds. Add seed 2 for each selected configuration. Freeze all selections before test access.",
+    "information": "Causal observed history only: last-30 summaries, first-10 sensor means, change from initial level, cumulative means/slopes, and observed cycle. No future rows, full engine lifetime, ID, or true RUL used as a feature.",
+    "baseline": "Refit random forest on the same history features, with its own train-only standardisation and the same engine split. Also show original and upgrade-v1 scores separately.",
+    "tuning_seeds": [
+      0,
+      1
+    ],
+    "final_seeds": [
+      0,
+      1,
+      2
+    ],
+    "threads": 2,
+    "training": {
+      "max_epochs": 180,
+      "patience": 25,
+      "batch_size": 256,
+      "lr": 0.001,
+      "scheduler_patience": 7
+    },
+    "neural_candidates": [
+      {
+        "name": "history_small_sigmoid",
+        "representation": "history",
+        "hidden": [
+          64,
+          32
+        ],
+        "dropout": 0.1,
+        "weight_decay": 0.001,
+        "output": "sigmoid"
+      },
+      {
+        "name": "history_wide_sigmoid",
+        "representation": "history",
+        "hidden": [
+          128,
+          64
+        ],
+        "dropout": 0.1,
+        "weight_decay": 0.001,
+        "output": "sigmoid"
+      },
+      {
+        "name": "history_small_linear",
+        "representation": "history",
+        "hidden": [
+          64,
+          32
+        ],
+        "dropout": 0.1,
+        "weight_decay": 0.001,
+        "output": "linear"
+      },
+      {
+        "name": "history_wide_linear",
+        "representation": "history",
+        "hidden": [
+          128,
+          64
+        ],
+        "dropout": 0.1,
+        "weight_decay": 0.001,
+        "output": "linear"
+      },
+      {
+        "name": "pooled_small_sigmoid",
+        "representation": "pooled_history",
+        "hidden": [
+          64,
+          32
+        ],
+        "dropout": 0.1,
+        "weight_decay": 0.001,
+        "output": "sigmoid"
+      },
+      {
+        "name": "pooled_wide_sigmoid",
+        "representation": "pooled_history",
+        "hidden": [
+          128,
+          64
+        ],
+        "dropout": 0.1,
+        "weight_decay": 0.001,
+        "output": "sigmoid"
+      },
+      {
+        "name": "pooled_small_linear",
+        "representation": "pooled_history",
+        "hidden": [
+          64,
+          32
+        ],
+        "dropout": 0.1,
+        "weight_decay": 0.001,
+        "output": "linear"
+      },
+      {
+        "name": "pooled_wide_linear",
+        "representation": "pooled_history",
+        "hidden": [
+          128,
+          64
+        ],
+        "dropout": 0.1,
+        "weight_decay": 0.001,
+        "output": "linear"
+      },
+      {
+        "name": "history_regularised_sigmoid",
+        "representation": "history",
+        "hidden": [
+          128,
+          64
+        ],
+        "dropout": 0.2,
+        "weight_decay": 0.005,
+        "output": "sigmoid"
+      },
+      {
+        "name": "history_regularised_linear",
+        "representation": "history",
+        "hidden": [
+          128,
+          64
+        ],
+        "dropout": 0.2,
+        "weight_decay": 0.005,
+        "output": "linear"
+      },
+      {
+        "name": "history_no_dropout",
+        "representation": "history",
+        "hidden": [
+          128,
+          64
+        ],
+        "dropout": 0.0,
+        "weight_decay": 0.001,
+        "output": "sigmoid"
+      },
+      {
+        "name": "pooled_no_dropout",
+        "representation": "pooled_history",
+        "hidden": [
+          128,
+          64
+        ],
+        "dropout": 0.0,
+        "weight_decay": 0.001,
+        "output": "sigmoid"
+      }
+    ],
+    "rf_candidates": [
+      {
+        "name": "history_rf_leaf5",
+        "representation": "pooled_history",
+        "n_estimators": 300,
+        "min_samples_leaf": 5,
+        "max_depth": null
+      },
+      {
+        "name": "history_rf_leaf10",
+        "representation": "pooled_history",
+        "n_estimators": 300,
+        "min_samples_leaf": 10,
+        "max_depth": null
+      },
+      {
+        "name": "history_rf_leaf20",
+        "representation": "pooled_history",
+        "n_estimators": 300,
+        "min_samples_leaf": 20,
+        "max_depth": null
+      }
+    ],
+    "postprocessing": "All new neural and forest outputs clipped to [0,125], fixed before the experiment.",
+    "test": "One descriptive evaluation per selected configuration. Include per-seed and equally-sized three-model ensembles. Do not select a seed on test score or continue this search after evaluation.",
+    "limitations": "The old test set is already seen; expanded feature information and more tuning make comparison to original models exploratory. No independent generalisation claim."
+  },
+  "files": {
+    "configs/neural_history_plan.json": "6521298e8574d7f981f1307e91a7d01eb6ed31e9012def09b68077f7b698d221",
+    "scripts/train_neural_history.py": "80aa5d3b6065c4a5f7c493f2f22fd2eceb552c2690dec42ecf58c91e6baa5f1f",
+    "src/neural_history.py": "75cc89d2f38d4d6f6e3c98a6546d8f73f3a65adb74ddc30acf03fa2302d99c27",
+    "src/neural_upgrade.py": "f8d4165f32e625d8e79f68d2c1ac470840728de7717e6aa45f7e302985906bb0",
+    "src/numpy_mlp.py": "9ea3ea954658a21f5c8ca41202da71b21119a96e5858ec696cd015770bea2c64",
+    "src/train_torch.py": "647db61b3efe7ef2229fc2a63193f8c8df0b429fe7ad69238cccfeaf42c83d49",
+    "src/models.py": "7b815a157086cf1aee6de205cd049ee4e73d4910df5bf0eb2204a5bb7f8ae727",
+    "src/data.py": "6255fa22dec45ef0e9dd0d07ae643d39ecc4efb98f18d08982a46ffad94b278e",
+    "configs/data_fd001.json": "af220f10c8e5af60511ccd5397359e01421511742b4bc13c94af7b0380033466",
+    "data/splits/fd001_split.json": "7f2c96ab3a18e05a014a78fa3c6923d737f0f224ae37af116ec5ae93ce1b031e",
+    "models/preprocess_fd001.json": "8ad8ce4291c938580b1fb44550250755712cee4ba80c404cc84995e2a7c3f2a9",
+    "data/raw/train_FD001.txt": "963b5e22825b34d8b21c69e1aeb4af3e647050eb672ee8834ba4b5d91d2de0f8"
+  },
+  "test_already_seen": true
+}

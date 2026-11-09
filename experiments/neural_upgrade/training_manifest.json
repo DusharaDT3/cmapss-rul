@@ -1,0 +1,128 @@
+{
+  "started_at": "2026-11-09T10:45:14.902766+00:00",
+  "files": {
+    "configs/neural_upgrade_plan.json": "f5962ba18c81c8d490cd11981d41740c36bfd133e063e10067ee32f3ddb6f6fe",
+    "scripts/train_neural_upgrade.py": "65a53d6c73a19fb1d2d64343336fc4e88594c4367ba9f0c78dfe5084cb2a7596",
+    "src/neural_upgrade.py": "f8d4165f32e625d8e79f68d2c1ac470840728de7717e6aa45f7e302985906bb0",
+    "src/data.py": "6255fa22dec45ef0e9dd0d07ae643d39ecc4efb98f18d08982a46ffad94b278e",
+    "src/numpy_mlp.py": "9ea3ea954658a21f5c8ca41202da71b21119a96e5858ec696cd015770bea2c64",
+    "configs/data_fd001.json": "af220f10c8e5af60511ccd5397359e01421511742b4bc13c94af7b0380033466",
+    "data/splits/fd001_split.json": "7f2c96ab3a18e05a014a78fa3c6923d737f0f224ae37af116ec5ae93ce1b031e",
+    "models/preprocess_fd001.json": "8ad8ce4291c938580b1fb44550250755712cee4ba80c404cc84995e2a7c3f2a9",
+    "data/raw/train_FD001.txt": "963b5e22825b34d8b21c69e1aeb4af3e647050eb672ee8834ba4b5d91d2de0f8"
+  },
+  "plan": {
+    "experiment": "neural_upgrade_v1",
+    "status": "exploratory follow-up after the original FD001 test results were seen",
+    "data_config": "configs/data_fd001.json",
+    "selection": "Lowest mean validation RMSE across tuning seeds 0 and 1; fixed original engine split. No test data loaded by training.",
+    "budget": "Eight candidates, two tuning seeds each; selected candidate reported for seeds 0, 1, 2. No additional search after test evaluation.",
+    "tuning_seeds": [
+      0,
+      1
+    ],
+    "final_seeds": [
+      0,
+      1,
+      2
+    ],
+    "threads": 2,
+    "training": {
+      "max_epochs": 160,
+      "patience": 22,
+      "batch_size": 256,
+      "lr": 0.001,
+      "scheduler_patience": 6,
+      "scheduler_factor": 0.5,
+      "min_lr": 1e-05
+    },
+    "candidates": [
+      {
+        "name": "summary_small",
+        "architecture": "feature_mlp",
+        "representation": "summary",
+        "hidden": [
+          64,
+          32
+        ],
+        "dropout": 0.0,
+        "weight_decay": 0.0001
+      },
+      {
+        "name": "summary_wide",
+        "architecture": "feature_mlp",
+        "representation": "summary",
+        "hidden": [
+          128,
+          64
+        ],
+        "dropout": 0.0,
+        "weight_decay": 0.0001
+      },
+      {
+        "name": "pooled_small",
+        "architecture": "feature_mlp",
+        "representation": "pooled",
+        "hidden": [
+          64,
+          32
+        ],
+        "dropout": 0.0,
+        "weight_decay": 0.0001
+      },
+      {
+        "name": "pooled_wide",
+        "architecture": "feature_mlp",
+        "representation": "pooled",
+        "hidden": [
+          128,
+          64
+        ],
+        "dropout": 0.0,
+        "weight_decay": 0.0001
+      },
+      {
+        "name": "pooled_regularised",
+        "architecture": "feature_mlp",
+        "representation": "pooled",
+        "hidden": [
+          128,
+          64
+        ],
+        "dropout": 0.1,
+        "weight_decay": 0.001
+      },
+      {
+        "name": "cnn_small",
+        "architecture": "temporal_cnn",
+        "representation": "sequence",
+        "channels": 16,
+        "hidden": 32,
+        "dropout": 0.0,
+        "weight_decay": 0.0001
+      },
+      {
+        "name": "cnn_wide",
+        "architecture": "temporal_cnn",
+        "representation": "sequence",
+        "channels": 32,
+        "hidden": 64,
+        "dropout": 0.0,
+        "weight_decay": 0.0001
+      },
+      {
+        "name": "cnn_regularised",
+        "architecture": "temporal_cnn",
+        "representation": "sequence",
+        "channels": 32,
+        "hidden": 64,
+        "dropout": 0.1,
+        "weight_decay": 0.001
+      }
+    ],
+    "common_design": "Train-only standardisation; sigmoid output times the fixed 125-cycle cap; MSE; AdamW; validation learning-rate reduction and early stopping. Same 30-cycle, 14-sensor information as original models.",
+    "evaluation": "Freeze sources, data, preprocessing, plan and all selected checkpoints before one descriptive evaluation of the already-used official test set. Report every seed and mean/std. Compare three-seed ensembles for ALL models, never ensemble-vs-single only.",
+    "acceptance": "Do not claim the neural upgrade wins unless measured results support it. Lower test error on this reused benchmark is descriptive, not fresh confirmation of generalisation."
+  },
+  "original_test_already_seen": true
+}

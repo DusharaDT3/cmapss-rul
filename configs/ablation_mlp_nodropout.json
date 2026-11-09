@@ -1,0 +1,16 @@
+{
+  "name": "mlp_nodropout",
+  "architecture": "mlp",
+  "data_config": "configs/data_fd001.json",
+  "hidden": [
+    128,
+    64
+  ],
+  "dropout": 0.0,
+  "lr": 0.001,
+  "weight_decay": 1e-05,
+  "batch_size": 256,
+  "max_epochs": 100,
+  "patience": 10,
+  "selected_by": "tuning trial 0 (lowest validation RMSE, seed 0)"
+}

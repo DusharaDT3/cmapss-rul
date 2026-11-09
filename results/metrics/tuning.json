@@ -1,0 +1,251 @@
+{
+  "plan": {
+    "written": "2026-11-09, before any tuning run",
+    "rule": "Each candidate trained once with seed 0 on the fixed engine split. Select the candidate with the lowest validation RMSE (cycles, capped RUL). The test set is not used for selection.",
+    "budget": "4 trials per neural architecture, 3 trials for the baseline; no further search after this plan",
+    "shared_settings": "Adam lr 1e-3, weight decay 1e-5, batch 256, max 100 epochs, early-stopping patience 10",
+    "candidates": {
+      "mlp": [
+        {
+          "hidden": [
+            128,
+            64
+          ],
+          "dropout": 0.1
+        },
+        {
+          "hidden": [
+            128,
+            64
+          ],
+          "dropout": 0.3
+        },
+        {
+          "hidden": [
+            256,
+            128
+          ],
+          "dropout": 0.1
+        },
+        {
+          "hidden": [
+            256,
+            128
+          ],
+          "dropout": 0.3
+        }
+      ],
+      "lstm": [
+        {
+          "hidden": 32,
+          "dropout": 0.1
+        },
+        {
+          "hidden": 32,
+          "dropout": 0.3
+        },
+        {
+          "hidden": 64,
+          "dropout": 0.1
+        },
+        {
+          "hidden": 64,
+          "dropout": 0.3
+        }
+      ],
+      "random_forest": [
+        {
+          "max_depth": 8,
+          "min_samples_leaf": 1
+        },
+        {
+          "max_depth": 12,
+          "min_samples_leaf": 5
+        },
+        {
+          "max_depth": null,
+          "min_samples_leaf": 10
+        }
+      ]
+    },
+    "final_seeds": [
+      0,
+      1,
+      2
+    ],
+    "ablation": "On the selected neural architecture: dropout set to 0.0, all other settings unchanged, seeds 0-2, validation data only"
+  },
+  "trials": [
+    {
+      "model": "mlp",
+      "trial": 0,
+      "overrides": {
+        "hidden": [
+          128,
+          64
+        ],
+        "dropout": 0.1
+      },
+      "val_rmse": 12.797486305236816,
+      "epochs_completed": 66,
+      "n_params": 62209
+    },
+    {
+      "model": "mlp",
+      "trial": 1,
+      "overrides": {
+        "hidden": [
+          128,
+          64
+        ],
+        "dropout": 0.3
+      },
+      "val_rmse": 13.855815887451172,
+      "epochs_completed": 45,
+      "n_params": 62209
+    },
+    {
+      "model": "mlp",
+      "trial": 2,
+      "overrides": {
+        "hidden": [
+          256,
+          128
+        ],
+        "dropout": 0.1
+      },
+      "val_rmse": 13.205479621887207,
+      "epochs_completed": 28,
+      "n_params": 140801
+    },
+    {
+      "model": "mlp",
+      "trial": 3,
+      "overrides": {
+        "hidden": [
+          256,
+          128
+        ],
+        "dropout": 0.3
+      },
+      "val_rmse": 14.704510688781738,
+      "epochs_completed": 27,
+      "n_params": 140801
+    },
+    {
+      "model": "lstm",
+      "trial": 0,
+      "overrides": {
+        "hidden": 32,
+        "dropout": 0.1
+      },
+      "val_rmse": 13.272509574890137,
+      "epochs_completed": 48,
+      "n_params": 14625
+    },
+    {
+      "model": "lstm",
+      "trial": 1,
+      "overrides": {
+        "hidden": 32,
+        "dropout": 0.3
+      },
+      "val_rmse": 13.311456680297852,
+      "epochs_completed": 69,
+      "n_params": 14625
+    },
+    {
+      "model": "lstm",
+      "trial": 2,
+      "overrides": {
+        "hidden": 64,
+        "dropout": 0.1
+      },
+      "val_rmse": 12.941023826599121,
+      "epochs_completed": 56,
+      "n_params": 53825
+    },
+    {
+      "model": "lstm",
+      "trial": 3,
+      "overrides": {
+        "hidden": 64,
+        "dropout": 0.3
+      },
+      "val_rmse": 13.794918060302734,
+      "epochs_completed": 31,
+      "n_params": 53825
+    },
+    {
+      "model": "random_forest",
+      "trial": 0,
+      "overrides": {
+        "max_depth": 8,
+        "min_samples_leaf": 1
+      },
+      "val_rmse": 13.580990482430572,
+      "epochs_completed": null,
+      "n_params": null
+    },
+    {
+      "model": "random_forest",
+      "trial": 1,
+      "overrides": {
+        "max_depth": 12,
+        "min_samples_leaf": 5
+      },
+      "val_rmse": 12.997053920771569,
+      "epochs_completed": null,
+      "n_params": null
+    },
+    {
+      "model": "random_forest",
+      "trial": 2,
+      "overrides": {
+        "max_depth": null,
+        "min_samples_leaf": 10
+      },
+      "val_rmse": 12.822965701304888,
+      "epochs_completed": null,
+      "n_params": null
+    }
+  ],
+  "selected": {
+    "mlp": {
+      "model": "mlp",
+      "trial": 0,
+      "overrides": {
+        "hidden": [
+          128,
+          64
+        ],
+        "dropout": 0.1
+      },
+      "val_rmse": 12.797486305236816,
+      "epochs_completed": 66,
+      "n_params": 62209
+    },
+    "lstm": {
+      "model": "lstm",
+      "trial": 2,
+      "overrides": {
+        "hidden": 64,
+        "dropout": 0.1
+      },
+      "val_rmse": 12.941023826599121,
+      "epochs_completed": 56,
+      "n_params": 53825
+    },
+    "random_forest": {
+      "model": "random_forest",
+      "trial": 2,
+      "overrides": {
+        "max_depth": null,
+        "min_samples_leaf": 10
+      },
+      "val_rmse": 12.822965701304888,
+      "epochs_completed": null,
+      "n_params": null
+    }
+  }
+}

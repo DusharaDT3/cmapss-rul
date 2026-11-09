@@ -1,0 +1,14 @@
+{
+  "written": "2026-11-09, before final training and before any test-set evaluation",
+  "primary_metric": "RMSE in cycles on the 100 official FD001 test engines, true RUL capped at 125 (same target definition as training)",
+  "complementary_metrics": ["MAE (cycles)", "PHM08 asymmetric score (penalises late predictions more)", "RMSE against uncapped true RUL (reported for transparency)"],
+  "prediction_post_processing": "Predictions clipped below at 0 cycles for every model",
+  "seeds": [0, 1, 2],
+  "seed_reporting": "Individual seeds and mean +- standard deviation; no seed is selected using test results",
+  "stress_tests": {
+    "sensor_noise": "Add Gaussian noise N(0, sigma^2) to the min-max-scaled test inputs, sigma in {0.01, 0.02, 0.05, 0.10}; 5 noise draws per sigma (numpy seed 123); all 3 seeds of every model; report mean test RMSE",
+    "subgroup": "Split the 100 test engines at the median observed history length into short and long histories; report RMSE per group with group sizes"
+  },
+  "error_analysis": "Inspect the 5 test engines with the largest absolute error and 5 engines near the median error, for the recommended model (seed-mean prediction)",
+  "inference_timing": "CPU, single process, batch sizes 1 and 100, median of 50 timed repeats after 5 warm-up calls"
+}

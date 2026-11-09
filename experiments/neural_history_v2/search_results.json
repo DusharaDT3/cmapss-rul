@@ -1,0 +1,425 @@
+[
+  {
+    "kind": "neural",
+    "config": {
+      "name": "history_small_sigmoid",
+      "representation": "history",
+      "hidden": [
+        64,
+        32
+      ],
+      "dropout": 0.1,
+      "weight_decay": 0.001,
+      "output": "sigmoid"
+    },
+    "runs": [
+      {
+        "seed": 0,
+        "val_rmse": 8.344429016113281,
+        "val_mae": 5.406962871551514,
+        "training_seconds": 2.079884589998983
+      },
+      {
+        "seed": 1,
+        "val_rmse": 8.558639526367188,
+        "val_mae": 5.682003974914551,
+        "training_seconds": 2.1413128440035507
+      }
+    ],
+    "mean_val_rmse": 8.451534271240234
+  },
+  {
+    "kind": "neural",
+    "config": {
+      "name": "history_wide_sigmoid",
+      "representation": "history",
+      "hidden": [
+        128,
+        64
+      ],
+      "dropout": 0.1,
+      "weight_decay": 0.001,
+      "output": "sigmoid"
+    },
+    "runs": [
+      {
+        "seed": 0,
+        "val_rmse": 8.231393814086914,
+        "val_mae": 5.254394054412842,
+        "training_seconds": 3.898217210022267
+      },
+      {
+        "seed": 1,
+        "val_rmse": 8.410996437072754,
+        "val_mae": 5.353194713592529,
+        "training_seconds": 3.4456063820398413
+      }
+    ],
+    "mean_val_rmse": 8.321195125579834
+  },
+  {
+    "kind": "neural",
+    "config": {
+      "name": "history_small_linear",
+      "representation": "history",
+      "hidden": [
+        64,
+        32
+      ],
+      "dropout": 0.1,
+      "weight_decay": 0.001,
+      "output": "linear"
+    },
+    "runs": [
+      {
+        "seed": 0,
+        "val_rmse": 7.973329067230225,
+        "val_mae": 5.12865686416626,
+        "training_seconds": 2.69801816099789
+      },
+      {
+        "seed": 1,
+        "val_rmse": 8.201952934265137,
+        "val_mae": 5.426871299743652,
+        "training_seconds": 2.4007627179962583
+      }
+    ],
+    "mean_val_rmse": 8.08764100074768
+  },
+  {
+    "kind": "neural",
+    "config": {
+      "name": "history_wide_linear",
+      "representation": "history",
+      "hidden": [
+        128,
+        64
+      ],
+      "dropout": 0.1,
+      "weight_decay": 0.001,
+      "output": "linear"
+    },
+    "runs": [
+      {
+        "seed": 0,
+        "val_rmse": 7.897130966186523,
+        "val_mae": 4.985405445098877,
+        "training_seconds": 3.962443358032033
+      },
+      {
+        "seed": 1,
+        "val_rmse": 7.7773590087890625,
+        "val_mae": 5.126097202301025,
+        "training_seconds": 3.882792277028784
+      }
+    ],
+    "mean_val_rmse": 7.837244987487793
+  },
+  {
+    "kind": "neural",
+    "config": {
+      "name": "pooled_small_sigmoid",
+      "representation": "pooled_history",
+      "hidden": [
+        64,
+        32
+      ],
+      "dropout": 0.1,
+      "weight_decay": 0.001,
+      "output": "sigmoid"
+    },
+    "runs": [
+      {
+        "seed": 0,
+        "val_rmse": 8.412617683410645,
+        "val_mae": 5.66963005065918,
+        "training_seconds": 1.7058930319617502
+      },
+      {
+        "seed": 1,
+        "val_rmse": 8.432862281799316,
+        "val_mae": 5.475257396697998,
+        "training_seconds": 2.5316526309470646
+      }
+    ],
+    "mean_val_rmse": 8.42273998260498
+  },
+  {
+    "kind": "neural",
+    "config": {
+      "name": "pooled_wide_sigmoid",
+      "representation": "pooled_history",
+      "hidden": [
+        128,
+        64
+      ],
+      "dropout": 0.1,
+      "weight_decay": 0.001,
+      "output": "sigmoid"
+    },
+    "runs": [
+      {
+        "seed": 0,
+        "val_rmse": 8.441328048706055,
+        "val_mae": 5.659947395324707,
+        "training_seconds": 2.348149651021231
+      },
+      {
+        "seed": 1,
+        "val_rmse": 8.446576118469238,
+        "val_mae": 5.706731796264648,
+        "training_seconds": 2.2721010640379973
+      }
+    ],
+    "mean_val_rmse": 8.443952083587646
+  },
+  {
+    "kind": "neural",
+    "config": {
+      "name": "pooled_small_linear",
+      "representation": "pooled_history",
+      "hidden": [
+        64,
+        32
+      ],
+      "dropout": 0.1,
+      "weight_decay": 0.001,
+      "output": "linear"
+    },
+    "runs": [
+      {
+        "seed": 0,
+        "val_rmse": 7.988561153411865,
+        "val_mae": 5.21043062210083,
+        "training_seconds": 2.448553514026571
+      },
+      {
+        "seed": 1,
+        "val_rmse": 8.002533912658691,
+        "val_mae": 5.354971885681152,
+        "training_seconds": 2.770909213984851
+      }
+    ],
+    "mean_val_rmse": 7.995547533035278
+  },
+  {
+    "kind": "neural",
+    "config": {
+      "name": "pooled_wide_linear",
+      "representation": "pooled_history",
+      "hidden": [
+        128,
+        64
+      ],
+      "dropout": 0.1,
+      "weight_decay": 0.001,
+      "output": "linear"
+    },
+    "runs": [
+      {
+        "seed": 0,
+        "val_rmse": 7.926328182220459,
+        "val_mae": 5.086662769317627,
+        "training_seconds": 3.7577727410243824
+      },
+      {
+        "seed": 1,
+        "val_rmse": 8.026622772216797,
+        "val_mae": 5.167910099029541,
+        "training_seconds": 3.472010545025114
+      }
+    ],
+    "mean_val_rmse": 7.976475477218628
+  },
+  {
+    "kind": "neural",
+    "config": {
+      "name": "history_regularised_sigmoid",
+      "representation": "history",
+      "hidden": [
+        128,
+        64
+      ],
+      "dropout": 0.2,
+      "weight_decay": 0.005,
+      "output": "sigmoid"
+    },
+    "runs": [
+      {
+        "seed": 0,
+        "val_rmse": 8.255667686462402,
+        "val_mae": 5.437492847442627,
+        "training_seconds": 2.3881246370146982
+      },
+      {
+        "seed": 1,
+        "val_rmse": 8.386528968811035,
+        "val_mae": 5.358965873718262,
+        "training_seconds": 3.3781836309935898
+      }
+    ],
+    "mean_val_rmse": 8.321098327636719
+  },
+  {
+    "kind": "neural",
+    "config": {
+      "name": "history_regularised_linear",
+      "representation": "history",
+      "hidden": [
+        128,
+        64
+      ],
+      "dropout": 0.2,
+      "weight_decay": 0.005,
+      "output": "linear"
+    },
+    "runs": [
+      {
+        "seed": 0,
+        "val_rmse": 7.943007946014404,
+        "val_mae": 5.043309211730957,
+        "training_seconds": 3.562481362023391
+      },
+      {
+        "seed": 1,
+        "val_rmse": 7.764829635620117,
+        "val_mae": 5.233898639678955,
+        "training_seconds": 4.5911689280183055
+      }
+    ],
+    "mean_val_rmse": 7.853918790817261
+  },
+  {
+    "kind": "neural",
+    "config": {
+      "name": "history_no_dropout",
+      "representation": "history",
+      "hidden": [
+        128,
+        64
+      ],
+      "dropout": 0.0,
+      "weight_decay": 0.001,
+      "output": "sigmoid"
+    },
+    "runs": [
+      {
+        "seed": 0,
+        "val_rmse": 8.457364082336426,
+        "val_mae": 5.73391056060791,
+        "training_seconds": 1.3942193589755334
+      },
+      {
+        "seed": 1,
+        "val_rmse": 8.511502265930176,
+        "val_mae": 5.717260837554932,
+        "training_seconds": 1.3989974610158242
+      }
+    ],
+    "mean_val_rmse": 8.4844331741333
+  },
+  {
+    "kind": "neural",
+    "config": {
+      "name": "pooled_no_dropout",
+      "representation": "pooled_history",
+      "hidden": [
+        128,
+        64
+      ],
+      "dropout": 0.0,
+      "weight_decay": 0.001,
+      "output": "sigmoid"
+    },
+    "runs": [
+      {
+        "seed": 0,
+        "val_rmse": 8.453125,
+        "val_mae": 5.809897422790527,
+        "training_seconds": 1.513178456982132
+      },
+      {
+        "seed": 1,
+        "val_rmse": 8.494993209838867,
+        "val_mae": 5.801468849182129,
+        "training_seconds": 1.642958072014153
+      }
+    ],
+    "mean_val_rmse": 8.474059104919434
+  },
+  {
+    "kind": "random_forest",
+    "config": {
+      "name": "history_rf_leaf5",
+      "representation": "pooled_history",
+      "n_estimators": 300,
+      "min_samples_leaf": 5,
+      "max_depth": null
+    },
+    "runs": [
+      {
+        "seed": 0,
+        "val_rmse": 9.572515313062198,
+        "val_mae": 6.547039500034169,
+        "training_seconds": 183.05026567797177
+      },
+      {
+        "seed": 1,
+        "val_rmse": 9.614742120595828,
+        "val_mae": 6.549188161058076,
+        "training_seconds": 183.67584721703315
+      }
+    ],
+    "mean_val_rmse": 9.593628716829013
+  },
+  {
+    "kind": "random_forest",
+    "config": {
+      "name": "history_rf_leaf10",
+      "representation": "pooled_history",
+      "n_estimators": 300,
+      "min_samples_leaf": 10,
+      "max_depth": null
+    },
+    "runs": [
+      {
+        "seed": 0,
+        "val_rmse": 9.576669569691285,
+        "val_mae": 6.568686877850492,
+        "training_seconds": 166.93515872996068
+      },
+      {
+        "seed": 1,
+        "val_rmse": 9.60624792551548,
+        "val_mae": 6.582892065726475,
+        "training_seconds": 167.57009569299407
+      }
+    ],
+    "mean_val_rmse": 9.591458747603383
+  },
+  {
+    "kind": "random_forest",
+    "config": {
+      "name": "history_rf_leaf20",
+      "representation": "pooled_history",
+      "n_estimators": 300,
+      "min_samples_leaf": 20,
+      "max_depth": null
+    },
+    "runs": [
+      {
+        "seed": 0,
+        "val_rmse": 9.689057876979692,
+        "val_mae": 6.688053395628757,
+        "training_seconds": 149.02078858896857
+      },
+      {
+        "seed": 1,
+        "val_rmse": 9.713863045764068,
+        "val_mae": 6.6990912569952075,
+        "training_seconds": 147.22261214797618
+      }
+    ],
+    "mean_val_rmse": 9.70146046137188
+  }
+]

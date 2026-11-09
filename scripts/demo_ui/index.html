@@ -1,0 +1,65 @@
+<!doctype html>
+<html lang="en">
+<head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1"><title>Flightline · Engine RUL Lab</title><link rel="stylesheet" href="/style.css"><script src="/app.js" defer></script></head>
+<body>
+<a class="skip" href="#content">Skip to content</a>
+<aside class="sidebar">
+  <a class="brand" href="#predict"><span class="brand-symbol">F<span>↗</span></span><span>FLIGHTLINE<small>ENGINE INTELLIGENCE LAB</small></span></a>
+  <div class="nav-label">WORKSPACE</div>
+  <nav aria-label="Demo sections">
+    <a href="#predict" data-view="predict"><span class="nav-icon">◉</span>Prediction lab<span class="nav-number">01</span></a>
+    <a href="#architecture" data-view="architecture"><span class="nav-icon">◇</span>Model architecture<span class="nav-number">02</span></a>
+    <a href="#evidence" data-view="evidence"><span class="nav-icon">≋</span>Results & trace<span class="nav-number">03</span></a>
+    <a href="#failures" data-view="failures"><span class="nav-icon">△</span>Error analysis<span class="nav-number">04</span></a>
+    <a href="#guide" data-view="guide"><span class="nav-icon">▷</span>Demo guide<span class="nav-number">05</span></a>
+  </nav>
+  <div class="sidebar-card"><span class="eyebrow">THE QUESTION</span><p>How many cycles does this engine have left?</p><span class="muted">A practical neural network investigation.</span></div>
+  <div class="sidebar-foot"><span class="status-dot"></span> Local inference<small>NASA C-MAPSS · FD001<br>NB6057CEM · CW1</small></div>
+</aside>
+<div class="workspace">
+  <header class="topbar"><div><span class="muted">CW1 /</span> <span id="breadcrumb">Prediction lab</span></div><div class="top-actions"><span class="connection" id="connection">Loading models…</span><button class="button subtle" id="fullscreen" title="Toggle full screen">⛶ Present</button></div></header>
+  <main id="content">
+    <div id="app-error" class="notice danger" role="alert" hidden></div>
+    <section id="view-predict" class="view">
+      <div class="page-heading"><div><span class="eyebrow">01 / PREDICTION LAB</span><h1>From sensor history<br>to remaining life<span class="accent">.</span></h1><p>Run saved models on an engine. See the prediction, compare the seeds,<br class="desktop-only"> and follow the evidence behind the number.</p></div><div class="engine-art" aria-hidden="true"><div class="engine-ring r1"></div><div class="engine-ring r2"></div><div class="engine-ring r3"></div><div class="engine-core">FD<span>001</span></div><span class="art-label">TURBOFAN / SENSOR TELEMETRY</span></div></div>
+      <div class="stat-strip"><div><span class="stat-value">100</span><span>training engines</span></div><div><span class="stat-value">14</span><span>retained sensors</span></div><div><span class="stat-value">30</span><span>cycle window</span></div><div><span class="stat-value">3</span><span>seeds per model</span></div></div>
+      <div class="panel input-panel"><div class="panel-heading"><div><span class="eyebrow">INPUT</span><h2>Choose an engine history</h2></div><span class="chip">CSV / C-MAPSS text</span></div>
+        <div class="scenario-grid"><button class="scenario selected" data-example="engine_normal.csv"><span class="scenario-icon">↗</span><span><strong>Normal engine</strong><small>Engine 31 · known test example</small></span><span class="scenario-arrow">→</span></button><button class="scenario" data-example="engine_too_short.csv"><span class="scenario-icon">!</span><span><strong>Invalid input</strong><small>20 cycles · needs at least 30</small></span><span class="scenario-arrow">→</span></button><button class="scenario" data-example="engine_other_conditions_fd002.csv"><span class="scenario-icon">∅</span><span><strong>Outside scope</strong><small>FD002 · different conditions</small></span><span class="scenario-arrow">→</span></button></div>
+        <div class="input-controls"><label class="sr-only" for="example">Example file</label><select id="example"><option>Loading examples…</option></select><button class="button primary" id="predict">Run prediction <span>↗</span></button><label class="button secondary upload">Upload your CSV<input id="upload" type="file" accept=".csv,.txt"></label><span class="muted small">One engine · consecutive cycles · up to 5 MB</span></div>
+      </div>
+      <div id="prediction-result" aria-live="polite"><div class="empty-state">Loading saved checkpoints and the normal example…</div></div>
+      <div class="panel" id="sensor-panel" hidden><div class="panel-heading"><div><span class="eyebrow">OBSERVED TELEMETRY</span><h2>Sensor history</h2></div><span class="chip">Scaled on training engines</span></div><div id="sensor-chart" class="sensor-chart"></div><div id="sensor-legend" class="sensor-legend"></div><p class="caption">Shading marks the last 30 cycles used by the original models. History MLP uses the full observed prefix. Dashed lines show the demo’s input range check.</p></div>
+    </section>
+    <section id="view-architecture" class="view" hidden>
+      <div class="page-heading compact"><div><span class="eyebrow">02 / MODEL ARCHITECTURE</span><h1>Open the model.</h1><p>Follow the input through each layer. Shapes and parameter counts come from the loaded models.</p></div></div>
+      <div id="architecture-tabs" class="model-tabs" role="group" aria-label="Choose architecture"></div><div id="architecture-content"></div>
+      <div class="panel design-panel"><div><span class="eyebrow">DESIGN CHOICE / LEAKAGE CONTROL</span><h2>Split by whole engine.</h2><p>Consecutive 30-cycle windows overlap by 29 cycles. Randomly splitting rows would put near-copies into both training and validation.</p></div><div class="split-visual"><div class="split-bar"><span>80 training</span><span>20 validation</span></div><p class="caption">Fixed engine split · seed 42 · preprocessing fitted only on training engines</p></div></div>
+    </section>
+    <section id="view-evidence" class="view" hidden>
+      <div class="page-heading compact"><div><span class="eyebrow">03 / RESULTS & TRACE</span><h1>Show the evidence.</h1><p>Saved metrics, model provenance and the path from configuration to output.</p></div></div>
+      <div class="panel"><div class="panel-heading"><div><span class="eyebrow">ORIGINAL FIXED COMPARISON</span><h2>Prediction error, in cycles</h2></div><span class="chip">Lower RMSE is better</span></div><div id="original-results"></div><p class="caption">Mean ± sample standard deviation across three seeds. Same engine split and last-30-cycle information. These are individual-model test scores; live predictions average the three models.</p></div>
+      <div class="panel followup"><div class="panel-heading"><div><span class="eyebrow">EXPLORATORY FOLLOW-UP</span><h2>What changed with more history?</h2></div><span class="chip amber">Previously seen test set</span></div><div id="followup-results"></div><p class="caption">History MLP and a new forest use observed engine history; the forest also uses pooled window features. Search budgets and representations differ. These follow-up scores are descriptive and need confirmation on independent data.</p></div>
+      <div class="panel"><div class="panel-heading"><div><span class="eyebrow">CONFIGURATION → CHECKPOINT → METRIC → PREDICTION</span><h2>Trace a saved result</h2></div><div class="inline-controls"><label for="trace-model" class="sr-only">Model to trace</label><select id="trace-model"></select><label for="trace-seed" class="sr-only">Seed to trace</label><select id="trace-seed"></select></div></div><div id="trace-content"></div></div>
+      <div class="panel"><div class="panel-heading"><div><span class="eyebrow">TRAINING EVIDENCE</span><h2>Learning curves</h2></div><label class="small">Experiment <select id="learning-select"><option value="learning">Original MLP & LSTM</option><option value="history">History MLP follow-up</option></select></label></div><img id="learning-image" class="evidence-image" src="/figures/learning.png" alt="Saved training and validation learning curves for the original MLP and LSTM"><p class="caption">Saved experimental figure. Validation selected the checkpoint; the test score did not choose the best seed.</p></div>
+    </section>
+    <section id="view-failures" class="view" hidden>
+      <div class="page-heading compact"><div><span class="eyebrow">04 / ERROR ANALYSIS</span><h1>Good averages hide mistakes.</h1><p>Inspect the five largest absolute errors for each three-seed ensemble on the saved test engines.</p></div></div>
+      <div class="panel"><div class="panel-heading"><div><span class="eyebrow">OBSERVED FAILURES</span><h2>Where the model missed</h2></div><label class="small">Model <select id="failure-model"></select></label></div><div id="failure-content"></div></div>
+      <div class="two-column"><div class="panel"><span class="eyebrow">INTERPRETATION</span><h2>The direction matters.</h2><p>Positive error means remaining life was overestimated. A maintenance decision based on that number could be delayed. Negative error means the prediction was conservative and could prompt early replacement.</p><p>Short histories may contain little visible degradation. These examples expose an error pattern; they do not prove its cause.</p></div><div class="panel"><span class="eyebrow">LIMITS & NEXT EXPERIMENT</span><h2>Evidence has a boundary.</h2><p>FD001 is simulated, with one operating condition and one fault mode. Targets are capped at 125 cycles. Seed spread is a stability indicator, not a calibrated confidence interval.</p><p>Next: freeze the history model and evaluate on independent data and broader conditions, with a matched baseline.</p></div></div>
+    </section>
+    <section id="view-guide" class="view" hidden>
+      <div class="page-heading compact"><div><span class="eyebrow">05 / DEMONSTRATION GUIDE</span><h1>Tell the story in six minutes.</h1><p>A walkthrough aligned with CW1 T5–T6. Explain each step in your own words.</p></div></div>
+      <div class="panel timer-panel"><div><span class="eyebrow">REHEARSAL TIMER</span><div id="timer" class="timer">00:00</div><p class="caption" id="timer-note">Target: 5–7 minutes · timer continues across sections</p></div><div class="inline-controls"><button id="timer-toggle" class="button primary">Start timer</button><button id="timer-reset" class="button secondary">Reset</button></div></div>
+      <div class="guide-steps">
+        <button data-goto="predict"><span class="step-index">01</span><span><small>00:00–00:45 · FRAME THE TASK</small><strong>What are we predicting?</strong><p>Explain the maintenance user, sensor history, RUL in cycles and why this is regression.</p></span><span>↗</span></button>
+        <button data-goto="predict"><span class="step-index">02</span><span><small>00:45–02:00 · RUN INFERENCE</small><strong>Show a prediction and a rejected input.</strong><p>Run the normal engine, explain the output and seed spread, then select invalid input or FD002.</p></span><span>↗</span></button>
+        <button data-goto="architecture"><span class="step-index">03</span><span><small>02:00–03:00 · EXPLAIN ONE CHOICE</small><strong>Walk through the network.</strong><p>Compare the window MLP and LSTM. Explain why whole engines are kept in separate splits.</p></span><span>↗</span></button>
+        <button data-goto="evidence"><span class="step-index">04</span><span><small>03:00–04:15 · TRACE A RESULT</small><strong>Connect configuration to output.</strong><p>Choose LSTM seed 2. Show its configuration, checkpoint fingerprint, saved RMSE and live prediction values.</p></span><span>↗</span></button>
+        <button data-goto="failures"><span class="step-index">05</span><span><small>04:15–05:15 · SHOW A FAILURE</small><strong>Explain an overestimate.</strong><p>Compare true and predicted RUL for an engine. Explain the consequence and replay its inference.</p></span><span>↗</span></button>
+        <button data-goto="evidence"><span class="step-index">06</span><span><small>05:15–06:00 · CLOSE WITH EVIDENCE</small><strong>Make a measured recommendation.</strong><p>State the original comparison, distinguish the exploratory follow-up and propose independent evaluation.</p></span><span>↗</span></button>
+      </div><p class="caption">CW1 asks for a 5–7 minute demonstration, live or recorded as specified by your lecturer. Technical understanding is assessed.</p>
+    </section>
+    <footer>NASA C-MAPSS FD001 <span>·</span> Educational demonstration using simulated engine data. Predictions do not establish readiness for real maintenance decisions.</footer>
+  </main>
+</div>
+</body></html>

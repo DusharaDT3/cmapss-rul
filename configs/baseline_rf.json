@@ -1,0 +1,8 @@
+{
+  "name": "random_forest",
+  "data_config": "configs/data_fd001.json",
+  "features": "per-sensor window mean, slope, last value and std (56 inputs)",
+  "n_estimators": 300,
+  "max_depth": null,
+  "min_samples_leaf": 1
+}

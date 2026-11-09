@@ -1,0 +1,18 @@
+{
+  "frozen_at": "2026-11-08T19:58:37+00:00",
+  "note": "Written immediately before the first read of the test set",
+  "files": {
+    "configs/final_random_forest.json": "a504a15aab78d7cc",
+    "configs/final_mlp.json": "eb0f46f9f74e8118",
+    "configs/final_lstm.json": "0e20b1394f37a30d",
+    "models/random_forest_seed0.pkl": "3458c8ef74fb28f0",
+    "models/random_forest_seed1.pkl": "869f4ce9dfa00817",
+    "models/random_forest_seed2.pkl": "16b5e0bef89fc711",
+    "models/mlp_seed0.pt": "f5b524112370c872",
+    "models/mlp_seed1.pt": "b71fde1b9693e582",
+    "models/mlp_seed2.pt": "2416d11cae5fdf7b",
+    "models/lstm_seed0.pt": "045faa26bc694e0c",
+    "models/lstm_seed1.pt": "6f47159e1bf3548e",
+    "models/lstm_seed2.pt": "da2d583b40e5f341"
+  }
+}

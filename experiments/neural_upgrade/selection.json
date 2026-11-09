@@ -1,0 +1,48 @@
+{
+  "selected_config": {
+    "name": "pooled_regularised",
+    "architecture": "feature_mlp",
+    "representation": "pooled",
+    "hidden": [
+      128,
+      64
+    ],
+    "dropout": 0.1,
+    "weight_decay": 0.001
+  },
+  "selection_metric": "mean validation RMSE over tuning seeds 0 and 1",
+  "final_seeds": [
+    0,
+    1,
+    2
+  ],
+  "runs": [
+    {
+      "seed": 0,
+      "val_rmse": 12.168313980102539,
+      "val_mae": 8.541803359985352,
+      "best_epoch": 13,
+      "epochs_completed": 35,
+      "parameters": 26369
+    },
+    {
+      "seed": 1,
+      "val_rmse": 12.120038986206055,
+      "val_mae": 8.620767593383789,
+      "best_epoch": 7,
+      "epochs_completed": 29,
+      "parameters": 26369
+    },
+    {
+      "seed": 2,
+      "val_rmse": 11.980209350585938,
+      "val_mae": 8.236579895019531,
+      "best_epoch": 13,
+      "epochs_completed": 35,
+      "parameters": 26369
+    }
+  ],
+  "val_rmse_mean": 12.089520772298178,
+  "val_rmse_std": 0.0976952350244868,
+  "original_test_already_seen": true
+}

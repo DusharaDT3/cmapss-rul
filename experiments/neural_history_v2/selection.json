@@ -1,0 +1,70 @@
+{
+  "models": {
+    "neural": {
+      "config": {
+        "name": "history_wide_linear",
+        "representation": "history",
+        "hidden": [
+          128,
+          64
+        ],
+        "dropout": 0.1,
+        "weight_decay": 0.001,
+        "output": "linear"
+      },
+      "runs": [
+        {
+          "seed": 0,
+          "val_rmse": 7.897130966186523,
+          "val_mae": 4.985405445098877
+        },
+        {
+          "seed": 1,
+          "val_rmse": 7.7773590087890625,
+          "val_mae": 5.126097202301025
+        },
+        {
+          "seed": 2,
+          "val_rmse": 8.041683197021484,
+          "val_mae": 5.247506141662598
+        }
+      ],
+      "val_rmse_mean": 7.9053910573323565,
+      "val_rmse_std": 0.132355547486629
+    },
+    "random_forest": {
+      "config": {
+        "name": "history_rf_leaf10",
+        "representation": "pooled_history",
+        "n_estimators": 300,
+        "min_samples_leaf": 10,
+        "max_depth": null
+      },
+      "runs": [
+        {
+          "seed": 0,
+          "val_rmse": 9.576669569691285,
+          "val_mae": 6.568686877850492
+        },
+        {
+          "seed": 1,
+          "val_rmse": 9.60624792551548,
+          "val_mae": 6.582892065726475
+        },
+        {
+          "seed": 2,
+          "val_rmse": 9.709025848241723,
+          "val_mae": 6.647437814463157
+        }
+      ],
+      "val_rmse_mean": 9.630647781149497,
+      "val_rmse_std": 0.06946985557888319
+    }
+  },
+  "seeds": [
+    0,
+    1,
+    2
+  ],
+  "test_already_seen": true
+}
