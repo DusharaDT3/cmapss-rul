@@ -3,10 +3,4 @@ data/raw/
 __pycache__/
 .ipynb_checkpoints/
 *.zip
-docs/build/
-
-# Random-forest checkpoints are 17-60 MB each; rebuild them with the training scripts
-*.pkl
-experiments/neural_history_v2/history_rf_*.pt
-experiments/neural_history_v2/selected_random_forest_*.pt
 docs/demo_audio_edit_manifest.json
