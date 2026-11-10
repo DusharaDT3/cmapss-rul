@@ -10,7 +10,7 @@ import zipfile
 from pathlib import Path
 
 ROOT = Path(__file__).resolve().parents[1]
-EXCLUDE_DIRS = {".venv", "__pycache__", ".ipynb_checkpoints", "raw"}
+EXCLUDE_DIRS = {".git", ".venv", "__pycache__", ".ipynb_checkpoints", "raw"}
 
 
 def main():
@@ -22,6 +22,7 @@ def main():
     files = sorted(p for p in ROOT.rglob("*") if p.is_file()
                    and not EXCLUDE_DIRS & set(p.relative_to(ROOT).parts)
                    and not p.name.startswith(("CW2_", "cw2_"))
+                   and p.name != "demo_audio_edit_manifest.json"
                    and not (args.without_tuning_checkpoints and p.parent.name == "models" and p.name.startswith("tune_")))
     with zipfile.ZipFile(out, "w", zipfile.ZIP_DEFLATED) as z:
         for p in files:
