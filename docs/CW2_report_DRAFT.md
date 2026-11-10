@@ -13,7 +13,7 @@ references, equations, tables and appendices.
 
 <h1 align="center" style="font-size:20pt; margin-top:2cm; margin-bottom:2cm">Neural Network Principles and Critical Analysis, Applied to Turbofan RUL Prediction</h1>
 
-<p align="center" style="font-size:12pt; line-height:1.8"><b>Project title:</b> Remaining useful life prediction for turbofan engines (NASA C-MAPSS FD001)<br><b>Student name:</b> K A D Dushara Kalubowila<br><b>Student ID:</b> KIC-BSCCSAI-251P-052<br><b>Word count:</b> 2,620 (excluding title page, references, equations, tables, figures and captions)<br><b>Date:</b> November 2026</p>
+<p align="center" style="font-size:12pt; line-height:1.8"><b>Project title:</b> Remaining useful life prediction for turbofan engines (NASA C-MAPSS FD001)<br><b>Student name:</b> K A D Dushara Kalubowila<br><b>Student ID:</b> KIC-BSCCSAI-251P-052<br><b>Word count:</b> 2,622 (excluding title page, references, equations, tables, figures and captions)<br><b>Date:</b> November 2026</p>
 
 <p style="page-break-before: always"></p>
 
@@ -45,6 +45,8 @@ capacity grows with width and depth instead of staying limited to one hyperplane
 
 ![Fig. Q1a: XOR in input space and in hidden space](figures/figQ1a_xor.png)
 
+*Fig. Q1a. XOR in input space (left) and in hidden space (right).*
+
 ### (b) Forward pass
 
 With x = [1, 2]ᵀ, y = 1 and the given parameters (Fig. Q1b):
@@ -56,6 +58,8 @@ With x = [1, 2]ᵀ, y = 1 and the given parameters (Fig. Q1b):
   (a non-negative scalar that training minimises).
 
 ![Fig. Q1b: network with forward-pass values](figures/figQ1b_network.png)
+
+*Fig. Q1b. The 2-2-1 network with forward-pass values.*
 
 ### (c) Backward pass and update
 
@@ -217,8 +221,8 @@ how gradients are computed. In T2 a wrong transpose would have shown up in the g
 (maximum relative error 1.3e-10); in PyTorch the same kind of bug, such as an accidental broadcast in
 a loss, can train without error. Reproducibility needed explicit seeds for Python, NumPy and PyTorch,
 plus a seeded batch generator. With those, re-running all 11 tuning trials reproduced every score
-exactly. I used the CPU because cuDNN's recurrent kernels can be nondeterministic on a
-GPU, and the 4 GB RTX 2050 offered little speed-up for 54k-parameter models.
+exactly. All reported experiments used the CPU, partly because cuDNN's recurrent kernels can be
+nondeterministic on a GPU; GPU performance was not evaluated.
 
 Deployment constraints differ sharply. The scikit-learn forest (Pedregosa et al., 2011) has 373,148
 tree nodes, a 27 MB checkpoint and 55.7 ms latency per engine; the MLP has a 0.25 MB checkpoint and
@@ -236,7 +240,9 @@ Early work established each component for RUL separately: Babu, Zhao and Li (201
 regressor, Zheng et al. (2017) an LSTM, and Li, Ding and Sun (2018) a deeper 1D CNN on normalised raw
 windows, each evaluated on C-MAPSS. More recently, Ensarioğlu, İnkaya and Emel (2023) combined a
 1D-CNN-LSTM with change-point-based labelling and difference features. On FD001 they report an RMSE of
-16.1 and a score of 437.2.
+16.1 and a score of 437.2. Liu, Xu and Geng (2025) made the modular split explicit for multiple
+operating conditions: one encoder per condition, soft-weighted by a two-layer softmax gate supervised by
+an auxiliary cross-entropy loss on the known condition label, followed by a Transformer layer.
 
 Their labelling and features differ from mine, so their RMSE
 cannot be compared directly with my 12–13. The contribution is the modular split between local feature
@@ -259,10 +265,7 @@ project offers little of the long-range structure that attention is designed to 
 
 I propose a **mixture of experts routed by operating condition** for the harder FD004 subset, which has
 six operating conditions and two fault modes. The design follows the sparsely gated mixture of experts
-of Shazeer et al. (2017). Liu, Xu and Geng (2025) showed a related design for multi-condition RUL: one
-encoder per operating condition, soft-weighted by a two-layer softmax gate, with an auxiliary
-cross-entropy loss that supervises the gate using the known condition label, followed by a Transformer
-layer. My proposal tests a simpler question: does a gate trained *without operating-condition labels* over CW1-style window MLPs,
+of Shazeer et al. (2017). Liu, Xu and Geng (2025), described in (a), showed a related design for multi-condition RUL. My proposal tests a simpler question: does a gate trained *without operating-condition labels* over CW1-style window MLPs,
 with no Transformer, beat a matched single MLP on FD004?
 
 - **Components.** A small gating MLP reads the three operational settings and outputs softmax weights
@@ -274,10 +277,10 @@ with no Transformer, beat a matched single MLP on FD004?
   a single window MLP with the same total parameter count.
 - **Fair comparator.** A single MLP with matched parameters, given the operational settings as extra
   inputs, with the same split, tuning budget, seeds and preprocessing.
-- **Decision rule.** As a proposed rule of thumb, not a significance test, the hypothesis is supported if the mixture's mean RMSE is lower than the
-  comparator's by more than one seed standard deviation, inconclusive if the difference is within one
-  standard deviation (three seeds give weak evidence), and refuted if the mixture's mean RMSE is equal
-  or higher. A second check: if the learned gate weights do not track operating condition, the claimed modular specialisation did not occur, and
+- **Decision rule.** As a proposed rule of thumb, not a significance test, let Δ be the comparator's
+  mean RMSE minus the mixture's, and s the larger of the two models' seed standard deviations. The
+  hypothesis is supported if Δ > s, inconclusive if 0 < Δ ≤ s (three seeds give weak evidence), and
+  refuted if Δ ≤ 0. A second check: if the learned gate weights do not track operating condition, the claimed modular specialisation did not occur, and
   Liu et al.'s condition-supervised gate would be the next variant to test.
 
 ### (c) Critical synthesis

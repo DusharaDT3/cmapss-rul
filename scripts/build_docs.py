@@ -21,6 +21,9 @@ img { width: 16cm; }
 code { font-family: 'Liberation Mono', monospace; font-size: 9.5pt; }
 """
 
+# LibreOffice turns this into a page footer with the page number.
+FOOTER = "<div title='footer'><p align='center'><sdfield type=PAGE subtype=RANDOM format=PAGE>1</sdfield></p></div>"
+
 
 def main():
     out = DOCS / "build"
@@ -33,7 +36,7 @@ def main():
             f'{base64.b64encode((DOCS / m.group(2)).read_bytes()).decode()}"'), body)
         body = body.replace("<table>", '<table border="1" cellpadding="4" cellspacing="0">')
         html = out / f"{name}.html"
-        html.write_text(f"<!doctype html><html><head><meta charset='utf-8'><style>{CSS}</style></head><body>{body}</body></html>")
+        html.write_text(f"<!doctype html><html><head><meta charset='utf-8'><style>{CSS}</style></head><body>{body}{FOOTER}</body></html>")
         subprocess.run(["soffice", "--headless", "--infilter=HTML (StarWriter)", "--convert-to", "docx:MS Word 2007 XML",
                         "--outdir", str(out), str(html)], check=True, capture_output=True)
         subprocess.run(["soffice", "--headless", "--convert-to", "pdf:writer_pdf_Export", "--outdir", str(out),
