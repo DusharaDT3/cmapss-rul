@@ -2,7 +2,7 @@
 
 Usage: python scripts/word_count.py
 Excluded: HTML comments, the title block (lines before the first '## ' heading), tables, figures and
-their captions, the References section and anything after it, appendices, and equation lines (Q1 lines
+their captions, URLs, the References section and anything after it, appendices, and equation lines (Q1 lines
 that are mostly arithmetic). Headings in the body are counted.
 """
 import re
@@ -28,6 +28,7 @@ def body_words(path):
         if (not stripped or stripped.startswith(("|", "![", "---")) or re.match(r"^\*Fig\.", stripped)
                 or is_equation(stripped)):
             continue
+        stripped = re.sub(r"<?https?://[^\s>]+>?", "", stripped)
         words += len(re.findall(r"[A-Za-z0-9][A-Za-z0-9'’.\-]*", stripped))
     return words
 

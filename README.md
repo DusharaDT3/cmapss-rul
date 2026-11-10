@@ -2,6 +2,9 @@
 
 NB6057CEM Artificial Neural Networks — CW1 practical project.
 
+- Demonstration video: https://drive.google.com/drive/folders/1sSR8g8CIEi_t4GLRz3SaDFI6rsfcLA5K?usp=sharing
+- Source code: https://github.com/DusharaDT3/cmapss-rul
+
 Predict the remaining useful life (RUL, in cycles) of a turbofan engine from observed sensor readings,
 to support maintenance planning. Subset: **FD001** (one operating condition, one fault mode).
 

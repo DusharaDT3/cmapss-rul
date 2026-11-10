@@ -8,7 +8,7 @@ and declare the assistance (docs/AI_use_declaration.md). Body word count target:
 
 # Remaining Useful Life Prediction for Turbofan Engines: CW1 Technical Record
 
-**Module:** NB6057CEM Artificial Neural Networks  **Student:** K A D Dushara Kalubowila  **Student ID:** KIC-BSCCSAI-251P-052  **Word count (body):** 1,497 (excluding tables, figures, captions and references)
+**Module:** NB6057CEM Artificial Neural Networks  **Student:** K A D Dushara Kalubowila  **Student ID:** KIC-BSCCSAI-251P-052  **Word count (body):** 1,493 (excluding tables, figures, captions and references)
 
 Figures are in `results/figures/`; every number below comes from `results/` or the executed notebooks.
 
@@ -176,7 +176,7 @@ conditions and two fault modes, using condition-wise normalisation.
 The README lists setup, run and smoke-test commands (`python scripts/smoke_test.py`, about 7 s).
 Dependencies are pinned in `requirements.txt`. The raw data are fetched by `scripts/download_data.py`
 and not redistributed. Splits, seeds, configurations, checkpoints and JSON or CSV metrics are all
-included. Follow-up models run with `scripts/predict_neural_history.py`. The demonstration is [video file name or link].
+included. Follow-up models run with `scripts/predict_neural_history.py`. Demonstration video: <https://drive.google.com/drive/folders/1sSR8g8CIEi_t4GLRz3SaDFI6rsfcLA5K?usp=sharing>. Source code: <https://github.com/DusharaDT3/cmapss-rul>.
 
 ## Appendix: figures
 

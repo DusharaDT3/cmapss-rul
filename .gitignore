@@ -9,3 +9,4 @@ docs/build/
 *.pkl
 experiments/neural_history_v2/history_rf_*.pt
 experiments/neural_history_v2/selected_random_forest_*.pt
+docs/demo_audio_edit_manifest.json
