@@ -13,7 +13,7 @@ references, equations, tables and appendices.
 
 <h1 align="center" style="font-size:20pt; margin-top:2cm; margin-bottom:2cm">Neural Network Principles and Critical Analysis, Applied to Turbofan RUL Prediction</h1>
 
-<p align="center" style="font-size:12pt; line-height:1.8"><b>Project title:</b> Remaining useful life prediction for turbofan engines (NASA C-MAPSS FD001)<br><b>Student name:</b> K A D Dushara Kalubowila<br><b>Student ID:</b> KIC-BSCCSAI-251P-052<br><b>Word count:</b> 2,611 (excluding title page, references, equations, tables, figures and captions)<br><b>Date:</b> November 2026</p>
+<p align="center" style="font-size:12pt; line-height:1.8"><b>Project title:</b> Remaining useful life prediction for turbofan engines (NASA C-MAPSS FD001)<br><b>Student name:</b> K A D Dushara Kalubowila<br><b>Student ID:</b> KIC-BSCCSAI-251P-052<br><b>Word count:</b> 2,620 (excluding title page, references, equations, tables, figures and captions)<br><b>Date:</b> November 2026</p>
 
 <p style="page-break-before: always"></p>
 
@@ -146,9 +146,9 @@ advantage is not established; both were beaten by a random forest on window stat
 The window MLP is not blind to time: it sees all 30 cycles with position-specific weights, so it can
 learn the trend inside the window. With smooth degradation and one operating condition, that was apparently
 enough. Recurrence should help more when dependencies exceed the window or the dynamics change with
-operating condition. That is a claim to test, not to assume. *Later exploratory result:* after these
+operating condition. *Later exploratory result:* after these
 test results were known, a history MLP given each engine's whole observed history (initial levels and
-trends) reached 9.75 ± 0.43 against 10.93 ± 0.10 for a forest given the same history. The forest also
+trends) reached 9.75 ± 0.43 against 10.93 ± 0.10 for a forest given the same history plus pooled window means. The forest also
 improved with history (12.13 → 10.93). With the test set reused, this suggests history helps; it does
 not overturn the original comparison.
 
@@ -171,9 +171,9 @@ stable training, not that this mechanism caused it.
 **Depth and width** were set by the pre-registered search. Two hidden layers satisfy the brief. The
 wider MLP (141k parameters) was worse (13.21 vs 12.80) and early-stopped sooner (27–28 epochs), which
 suggests that the extra capacity fitted noise and not degradation. **Adam** with weight decay 1e-5 was
-used for both networks so that the optimiser did not differ between them. The learning curves (Fig. 9)
-show training and validation losses converging together, at about 0.011, with no late divergence, which
-suggests that regularisation was adequate.
+used for both networks, keeping the optimiser identical. The learning curves (Fig. 9)
+show training and validation losses converging together, at about 0.011, with no late divergence, suggesting
+adequate regularisation.
 
 The ablation challenges one choice: removing dropout improved validation RMSE in every seed (12.81 →
 12.67). A likely explanation, not tested here, is that with early stopping and weight decay already present,
@@ -203,7 +203,7 @@ Four threats to validity remain:
    differed by about 1.2 cycles on test. Validation could not discriminate between them.
 2. **Single-seed tuning.** Candidates were compared on seed 0 only, yet the seed-to-seed test spread for
    the networks (±0.44) exceeds some candidate differences. Selected hyperparameters may therefore be
-   noise-driven, which would tend to bias the comparison against the networks.
+   noise-driven; as the networks vary more between seeds than the forest (±0.13), this may bias the comparison against them.
 3. **Target definition.** The cap at 125 was assumed, not tuned. RMSE against uncapped truth is higher
    for every model (13.4–14.9), so the conclusions hold only for the capped target.
 4. **Unequal representations and budgets.** The forest received hand-crafted window statistics and had
@@ -217,7 +217,7 @@ how gradients are computed. In T2 a wrong transpose would have shown up in the g
 (maximum relative error 1.3e-10); in PyTorch the same kind of bug, such as an accidental broadcast in
 a loss, can train without error. Reproducibility needed explicit seeds for Python, NumPy and PyTorch,
 plus a seeded batch generator. With those, re-running all 11 tuning trials reproduced every score
-exactly. I deliberately used the CPU, because cuDNN's recurrent kernels can be nondeterministic on a
+exactly. I used the CPU because cuDNN's recurrent kernels can be nondeterministic on a
 GPU, and the 4 GB RTX 2050 offered little speed-up for 54k-parameter models.
 
 Deployment constraints differ sharply. The scikit-learn forest (Pedregosa et al., 2011) has 373,148
@@ -238,7 +238,7 @@ windows, each evaluated on C-MAPSS. More recently, Ensarioğlu, İnkaya and Emel
 1D-CNN-LSTM with change-point-based labelling and difference features. On FD001 they report an RMSE of
 16.1 and a score of 437.2.
 
-This evidence needs careful reading. Their labelling and features differ from mine, so their RMSE
+Their labelling and features differ from mine, so their RMSE
 cannot be compared directly with my 12–13. The contribution is the modular split between local feature
 extraction and temporal aggregation. The main limitation is that the gains are tied to preprocessing
 and labelling choices that vary between papers. For my project, the hybrid is only worth adding if the
@@ -251,8 +251,8 @@ Transformer encoder to RUL and added a gated convolutional unit. Their argument 
 alone is insensitive to local context, and they report performance superior or comparable to existing
 methods on C-MAPSS. Attention's contribution is a direct path between distant time steps, avoiding the
 LSTM's sequential bottleneck. Its limitations are that the cost grows quadratically with sequence
-length, more data are needed, and, as Mo et al. themselves conclude, local structure must be
-reintroduced, which itself makes the model a hybrid. With 30-cycle windows and 80 training engines, my
+length, more data are needed, and, as Mo et al. conclude, local structure must be
+reintroduced, making the model a hybrid. With 30-cycle windows and 80 training engines, my
 project offers little of the long-range structure that attention is designed to exploit.
 
 ### (b) Proposed extension
@@ -263,7 +263,7 @@ of Shazeer et al. (2017). Liu, Xu and Geng (2025) showed a related design for mu
 encoder per operating condition, soft-weighted by a two-layer softmax gate, with an auxiliary
 cross-entropy loss that supervises the gate using the known condition label, followed by a Transformer
 layer. My proposal tests a simpler question: does a gate trained *without operating-condition labels* over CW1-style window MLPs,
-with no Transformer, recover most of that benefit?
+with no Transformer, beat a matched single MLP on FD004?
 
 - **Components.** A small gating MLP reads the three operational settings and outputs softmax weights
   over K = 6 experts. Each expert is a window MLP of the CW1 type that reads the 30 × 14 sensor window.
@@ -285,7 +285,7 @@ with no Transformer, recover most of that benefit?
 The main trade-off is **data requirements against accuracy**. Hybrid and attention models add
 parameters and design choices that need more data and more tuning trials to use well. My CW1 evidence
 shows the risk: with 80 training engines, a random forest on simple window statistics beat both neural
-networks on clean test data. Published improvements hold under their own protocols; my proposed
+networks on clean test data. My exploratory follow-up (Q2(c)) reversed this with whole-history inputs, but it reused the test set and mixes information with architecture. Published improvements hold under their own protocols; my proposed
 benefits are hypotheses until (b) is run. A newer architecture is not automatically better; whether it helps depends on whether the
 data contain the structure it is built to exploit.
 

@@ -8,7 +8,7 @@ and declare the assistance (docs/AI_use_declaration.md). Body word count target:
 
 # Remaining Useful Life Prediction for Turbofan Engines: CW1 Technical Record
 
-**Module:** NB6057CEM Artificial Neural Networks  **Student:** K A D Dushara Kalubowila  **Student ID:** KIC-BSCCSAI-251P-052  **Word count (body):** 1,493 (excluding tables, figures, captions and references)
+**Module:** NB6057CEM Artificial Neural Networks  **Student:** K A D Dushara Kalubowila  **Student ID:** KIC-BSCCSAI-251P-052  **Word count (body):** 1,498 (excluding tables, figures, captions and references)
 
 Figures are in `results/figures/`; every number below comes from `results/` or the executed notebooks.
 
@@ -19,15 +19,15 @@ schedule maintenance before failure without replacing parts early. The target is
 (RUL) in cycles (regression); the unit of observation is one engine's most recent 30 cycles of sensor
 readings.
 
-Data come from NASA's C-MAPSS simulation (Saxena et al., 2008), publicly released by the NASA
+Data come from NASA's C-MAPSS simulation (Saxena et al., 2008), released by NASA's
 Prognostics Center of Excellence; data.gov lists it as a U.S. Government Work (public domain). Subset
 FD001 has one operating condition and one fault mode: 100 run-to-failure training engines (20,631 rows)
-and 100 truncated test engines with separately supplied true RUL. The data are simulated, so contain no
+and 100 truncated test engines with separately supplied true RUL. Being simulated, the data contain no
 personal data; the main ethical risk is over-trust in a safety-critical setting, where late predictions
 endanger lives.
 
-**Data audit.** There are no missing values, duplicates or cycle gaps. Seven constant channels and
-two-valued sensor 6 are dropped, leaving 14 sensors. Lifetimes span 128–362 cycles (Fig. 1), so elapsed
+**Data audit.** There are no missing values, duplicates or cycle gaps. Six constant sensors and
+two-valued sensor 6 are dropped, leaving 14 of 21 sensors. Lifetimes span 128–362 cycles (Fig. 1), so elapsed
 cycles cannot predict RUL; the shortest test engine (31 cycles) fits a 30-cycle window. Sensors drift
 slowly, then accelerate near failure (Fig. 2), motivating piecewise-linear labels capped at 125 cycles
 (Fig. 4). After windowing, 31.4% of targets sit at the cap (Fig. 5), so evaluation also examines
@@ -37,7 +37,7 @@ low-RUL behaviour.
 training and 20 validation (seed 42, `data/splits/fd001_split.json`). Feature selection and min-max
 scaling are fitted on training engines only (`models/preprocess_fd001.json`); the cycle counter is never
 an input; no augmentation is used. **Correction:** during the reported runs the shared loader also read
-the test files, including labels, whenever training data were loaded. The labels were never used for
+the test files, including labels, with the training data. The labels were never used for
 fitting or selection, but this was not enforced. The loader is now split (`load_prepared`,
 `load_test_inputs`, `load_test_labels`), the rebuilt training and validation arrays are byte-identical,
 and only `scripts/evaluate.py` reads test labels, refusing to run if frozen files differ from the hash
@@ -58,18 +58,18 @@ Mini-batch gradient descent (learning rate 0.05, batch 64, early-stopping patien
 loss from 1.049 to 0.0054, stopping at epoch 57 and restoring epoch 37 (validation RMSE 12.99; Fig. 6).
 
 Analytical gradients were compared with central finite differences (ε = 1e-5, batch of 8) for 10
-entries spanning W1, b1, W2 and b2. The smallest pre-activation magnitude (0.0067) was far larger than
-any perturbation could change it (2.4e-5), so no ReLU kink was crossed. The maximum relative error was
-1.3e-10, well inside a tolerance of 1e-6 justified by O(ε²) truncation and float64 rounding.
+entries spanning W1, b1, W2 and b2. The smallest pre-activation magnitude (0.0067) far exceeded
+any perturbation's effect (2.4e-5), so no ReLU kink was crossed. The maximum relative error was
+1.3e-10, within a 1e-6 tolerance justified by O(ε²) truncation and float64 rounding.
 
-As a controlled check, the network overfitted 16 examples (loss 0.907 → 4.3e-5 in 3000 epochs). In a
+As a check, the network overfitted 16 examples (loss 0.907 → 4.3e-5 in 3000 epochs). In a
 learning-rate sweep, 0.005 converged slowly and 0.5 diverged in epoch 1, which the stopping rule reports
 as `diverged` (Fig. 8). Without standardisation, validation RMSE was 20.45: slopes were about 100× smaller
 than means and effectively ignored.
 
 ## T3 Baseline and framework models
 
-**Baseline.** A random forest (300 trees) on 56 window features (mean, slope, last value and standard
+**Baseline.** A random forest (Breiman, 2001; 300 trees) on 56 window features (mean, slope, last value and standard
 deviation per sensor), trained on the same windows and evaluated with the same metric.
 
 | Model | Architecture (input 30 × 14) | Parameters |
@@ -79,11 +79,11 @@ deviation per sensor), trained on the same windows and evaluated with the same m
 
 Both networks have two hidden layers, similar capacity and the same 30-cycle input. The MLP gives each
 cycle-and-sensor position its own weights, so it can use order within the window but shares nothing
-across time and keeps no state; the LSTM reuses recurrent weights at each step and carries a gated state.
+across time and keeps no state; the LSTM (Hochreiter and Schmidhuber, 1997) reuses recurrent weights at each step and carries a gated state.
 The scaled target is bounded in [0, 1], but both use an unconstrained linear output with MSE loss (a
 bounded output was not tested; negative predictions are clipped at inference). The MLP uses ReLU with
 Kaiming initialisation; the LSTM uses sigmoid gates and tanh activations with PyTorch defaults. Both use
-Adam (learning rate 1e-3, weight decay 1e-5, batch 256) and validation early stopping (patience 10),
+Adam (Kingma and Ba, 2015; learning rate 1e-3, weight decay 1e-5, batch 256) and validation early stopping (patience 10),
 saving the best weights per seed (Fig. 9).
 
 **Fair comparison.** Before any tuning I fixed a budget in `configs/tuning_plan.json`: four candidates
@@ -109,7 +109,7 @@ score.
 | Window MLP | 12.81 ± 0.02 | 13.40 ± 0.44 | 10.05 ± 0.27 | 281 ± 18 |
 | LSTM | 12.83 ± 0.11 | 13.27 ± 0.43 | 9.81 ± 0.34 | 280 ± 18 |
 
-RMSE (cycles, penalising large errors) is primary; MAE gives typical error and the PHM08 score
+RMSE (cycles, penalising large errors) is primary; MAE gives typical error and the PHM08 score (Saxena et al., 2008)
 penalises dangerous late predictions. The models were indistinguishable on 20 validation engines, but on
 100 test engines the forest was about 1.2 cycles better with a third of the networks' seed spread. The
 LSTM's mean RMSE was slightly below the MLP's (13.27 vs 13.40), but the gap is far smaller than either
@@ -233,6 +233,14 @@ included. Follow-up models run with `scripts/predict_neural_history.py`. Demonst
 *Fig. 13. Test RMSE under Gaussian input noise (mean ± sd over seeds).*
 
 ## References
+Breiman, L. (2001) 'Random forests', *Machine Learning*, 45(1), pp. 5–32.
+
+Hochreiter, S. and Schmidhuber, J. (1997) 'Long short-term memory', *Neural Computation*, 9(8),
+pp. 1735–1780.
+
+Kingma, D.P. and Ba, J. (2015) 'Adam: a method for stochastic optimization', *3rd International
+Conference on Learning Representations (ICLR 2015)*, San Diego, CA. arXiv:1412.6980.
+
 Saxena, A., Goebel, K., Simon, D. and Eklund, N. (2008) 'Damage propagation modeling for aircraft engine
 run-to-failure simulation', *International Conference on Prognostics and Health Management (PHM 2008)*,
 Denver, CO, 6–9 October. IEEE.
