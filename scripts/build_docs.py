@@ -35,6 +35,13 @@ def main():
             f'<img width="620" alt="{m.group(1)}" src="data:image/png;base64,'
             f'{base64.b64encode((DOCS / m.group(2)).read_bytes()).decode()}"'), body)
         body = body.replace("<table>", '<table border="1" cellpadding="4" cellspacing="0">')
+        # Keep each figure with the caption below it, and each table caption with the table below it.
+        keep = '<p style="page-break-after: avoid">'
+        body = body.replace("<p><img", keep + "<img").replace("<p><em>Table", keep + "<em>Table")
+        # Tighter spacing in the reference list.
+        if "<h2>References</h2>" in body:
+            head, refs = body.split("<h2>References</h2>", 1)
+            body = head + "<h2>References</h2>" + refs.replace("<p>", '<p style="margin-top: 0; margin-bottom: 4pt">')
         html = out / f"{name}.html"
         html.write_text(f"<!doctype html><html><head><meta charset='utf-8'><style>{CSS}</style></head><body>{body}{FOOTER}</body></html>")
         subprocess.run(["soffice", "--headless", "--infilter=HTML (StarWriter)", "--convert-to", "docx:MS Word 2007 XML",
